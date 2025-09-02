@@ -1,12 +1,15 @@
 import java.util.Date;
+import java.lang.Enum;
+import java.util.List;
+import java.util.ArrayList;
 
-pulic enum perfil{
+public enum perfil{
     CONSERVADOR,
     MODERADO,
     ARROJADO
 }
 
-private class Usuario{
+class Usuario{
 
     // Atributos
     private int id;
@@ -34,17 +37,17 @@ private class Usuario{
         this.email = novoEmail;
     }
 
-    public void alterarPerfil(Enum novoPerfil){
+    public void alterarPerfil(perfil novoPerfil){
         this.perfil = novoPerfil;        
     }
 
 
-    public void vincularcontaBanco(contaBanco novocontaBanco){
-        this.contaBancosVinculados.add(contaBanco) // add  verificação de vinculação antes de add
+    public void vincularcontaBanco(contaBanco novaContaBanco){
+        this.contasBancosVinculadas.add(novaContaBanco); // add  verificação de vinculação antes de add
     }
 
     public void vincularcontaCorretora(contaCorretora novacontaCorretora){
-        this.contaCorretorasVinculadas.add(novacontaCorretora);
+        this.contasCorretorasVinculadas.add(novacontaCorretora);
     }
     public void addMeta(Meta novaMeta){
         this.metas.add(novaMeta);
@@ -56,7 +59,7 @@ private class Usuario{
 
 }
 
-private class contaBanco{
+class contaBanco{
 
     // Atributos
     private int codigoCOMPE; // mesma coisa que o id ou tem um separado??
@@ -67,7 +70,7 @@ private class contaBanco{
     // Relacionamentos
     private List<Extrato> extratos;
     private List<Gasto> gastos;
-    private Lsit<Renda> rendas;
+    private List<Renda> rendas;
 
     private void addExtrato(Extrato novoExtrato){
         this.extratos.add(novoExtrato);
@@ -84,34 +87,33 @@ private class contaBanco{
     
 }
 
-private class Extrato{
+class Extrato{
 
 }
 
-private class Gasto{
+class Gasto{
 
 }
 
-private class Investimento{
+class Investimento{
 
 
 }
 
-private class Relatorio{
+class Relatorio{
 
 }
 
-private class Meta{
-    private String 
+class Meta{
 
 }
 
-private class contaCorretora{
+class contaCorretora{
 
     // Atributos
     private int codigo;
     public String nome;
-    private tokeAcesso;
+    private String tokenAcesso;
 
     // Relacionamento
     private List<Investimento> investimentos;
@@ -124,6 +126,6 @@ private class contaCorretora{
 
 }
 
-private class Renda{
+class Renda{
 
 }
