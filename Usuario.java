@@ -1,4 +1,6 @@
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario{
@@ -11,25 +13,37 @@ public class Usuario{
     // Atributos
     private int id;
     private String nomeCompleto;
-    private Date dataNascimento;
-    private Integer cpf;
+    private LocalDate dataNascimento;
+    private String cpf;
     private perfilInvestidor perfil;
     private String email;
 
     // Relacionamentos
     private List<ContaBanco> contasBancosVinculadas;
     private List<ContaCorretora> contasCorretorasVinculadas;
+
+    // Construtor
+    public Usuario(int id, String nomeCompleto, LocalDate dataNascimento, String cpf, perfilInvestidor perfil, String email) {
+        this.id = id;
+        this.nomeCompleto = nomeCompleto;
+        this.dataNascimento = dataNascimento;
+        this.cpf = cpf;
+        this.perfil = perfil;
+        this.email = email;
+        this.contasBancosVinculadas = new ArrayList<>();
+        this.contasCorretorasVinculadas = new ArrayList<>();
+    }
     
     // Métodos
-    public Integer getCPF(){
+    public String getCPF(){
         return cpf;
     }
 
     public Integer calcularIdade(){
-        Date hoje = new Date();
-        long diff = hoje.getTime() - this.dataNascimento.getTime();
-        Integer idade = (int) (diff / (1000L * 60 * 60 * 24 * 365));
-        System.out.println("Idade: "+ idade + "\n");
+        LocalDate hoje = LocalDate.now();
+        Period periodo = Period.between(this.dataNascimento, hoje);
+        Integer idade = periodo.getYears();
+        System.out.println("Idade: " + idade + "\n");
         return idade;
     }
 

@@ -1,67 +1,71 @@
-import java.util.Date;
+import java.time.LocalDate;
 
 abstract class Transacao{
-
-    // Categorias
-    protected enum tipoRecorrencia{
-        MENSAL, QUIZENAL, ANUAL, ESPORADICA
-    }
 
     // Atributos
     protected int id;
     protected float valor;
-    protected Date data;
+    protected LocalDate data;
     protected String descricao;
 
     // Métodos
     public float getValor(){
         return valor;
     }
+
+    // Construtor
+    public Transacao(int id, float valor, LocalDate data, String descricao) {
+        this.id = id;
+        this.valor = valor;
+        this.data = data;
+        this.descricao = descricao;
+    }
 }
 
-class Entrada extends Transacao{
-
-    // Categorias
-    private enum tipoEntrada{
-        SALARIO, RENDA_EXTRA, INVESTIMENTO, PASSIVA
-    }
+class Entrada extends Transacao{    
 
     // Atributos
-    private tipoEntrada tipoEntrada;
+    private Enum.categoriaEntrada tEntrada;
     private FonteRenda origem;
+
+    // Construtor
+    public Entrada(int id, float valor, LocalDate data, String descricao, Enum.categoriaEntrada novaCEntrada, FonteRenda origem) {
+        super(id, valor, data, descricao);
+        this.tEntrada = novaCEntrada;
+        this.origem = origem;
+    }
 
     // Métodos
     public FonteRenda getFonte(){
         return origem;
     }
 
-    public tipoEntrada getTipoEntrada(){
-        return tipoEntrada;
+    public Enum.categoriaEntrada getTipoEntrada(){
+        return tEntrada;
     }
 
-    public void setTipoEntrada(tipoEntrada novoTipo){
-        this.tipoEntrada = novoTipo;
+    public void setTipoEntrada(Enum.categoriaEntrada novoTipo){
+        this.tEntrada = novoTipo;
     }
 }
 
-class Saida extends Transacao{
-
-    // Categorias
-    private enum categoriaSaida{
-        ALIMENTACAO, SAUDE, MORADIA, LAZER, EDUCACAO, TRANSPORTE
-    }
-
-    private enum categoriaPagamento{
-        CREDITO, DEBITO, PIX, DINHEIRO
-    }
+class Saida extends Transacao{    
 
     // Atributos
-    private categoriaSaida categoria;
+    private Enum.categoriaSaida categoria;
     private String origem;
-    private categoriaPagamento formaPagamento;
+    private Enum.categoriaPagamento formaPagamento;
+    
+    // Construtor
+    public Saida(int id, float valor, LocalDate data, String descricao, Enum.categoriaSaida categoria, String origem, Enum.categoriaPagamento formaPagamento) {
+        super(id, valor, data, descricao);
+        this.categoria = categoria;
+        this.origem = origem;
+        this.formaPagamento = formaPagamento;
+    }
 
     // Métodos
-    public categoriaSaida getSaida(){
+    public Enum.categoriaSaida getSaida(){
         return categoria;
     }
     
@@ -69,20 +73,23 @@ class Saida extends Transacao{
         return origem;
     }
 
-    public categoriaPagamento getCatPagamento(){
+    public Enum.categoriaPagamento getCatPagamento(){
         return formaPagamento;
     }
 }
 
 class FonteRenda {
 
-    protected enum tipoRecorrencia{
-        MENSAL, QUIZENAL, ANUAL, ESPORADICA
-    }
-    
     private int id;
     private String nome;
-    private tipoRecorrencia recorrencia;
+    private Enum.tipoRecorrencia recorrencia;
+
+    // Construtor
+    public FonteRenda(int id, String nome, Enum.tipoRecorrencia recorrencia) {
+        this.id = id;
+        this.nome = nome;
+        this.recorrencia = recorrencia;
+    }
 
     // Métodos
     public int getId() {
@@ -93,7 +100,7 @@ class FonteRenda {
         return nome;
     }
 
-    public tipoRecorrencia getRecorrencia() {
+    public Enum.tipoRecorrencia getRecorrencia() {
         return recorrencia;
     }
 }
