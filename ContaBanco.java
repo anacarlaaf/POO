@@ -1,30 +1,39 @@
-import java.util.Date;
 import java.util.List;
 
 class ContaBanco{
 
     // Atributos
-    private int codigoCOMPE; // mesma coisa que o id ou tem um separado??
+    private int codigoCOMPE;
     public String nome;
     private String numeroConta;
-    private String tokeAcesso;
+    private String tokenAcesso;
 
     // Relacionamentos
-    private List<Extrato> extratos;
-    private List<Gasto> gastos;
-    private List<Entrada> Entradas;
+    private List<Saida> saidas;
+    private List<Entrada> entradas;
 
-    private void addExtrato(Extrato novoExtrato){
-        this.extratos.add(novoExtrato);
+    // Métodos
+    public String getNome(){
+        return nome;
     }
-    private void addGasto(Gasto novoGasto){
-        this.gastos.add(novoGasto);
+
+    public String getNumeroConta(){
+        return numeroConta;
+    }
+
+    public Integer getCOMPE(){
+        return codigoCOMPE;
+    }
+
+
+    private void addGasto(Saida novoGasto){
+        this.saidas.add(novoGasto);
     }
     private void addEntrada(Entrada novaEntrada){
-        this.Entradas.add(novaEntrada);
+        this.entradas.add(novaEntrada);
     }
 
-    // public boolean sincronizarExtrato(){} //???? Teoricamente acessa com o openFinance
-    // public Extrato obterExtrato(Date dataInicio, Date dataFim){}
+    // public boolean sincronizar(){} //simular sincronização com openFinance
+    // public Extrato gerarExtrato(Date dataInicio, Date dataFim){}
     
 }

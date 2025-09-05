@@ -3,6 +3,7 @@ import java.util.List;
 
 public class Usuario{
 
+     // Categorias
     private enum perfilInvestidor{
         CONSERVADOR, MODERADO, ARROJADO
     }
@@ -10,45 +11,74 @@ public class Usuario{
     // Atributos
     private int id;
     private String nomeCompleto;
-    private String apelido;
     private Date dataNascimento;
-    private int idade;
-    private String cpf;
+    private Integer cpf;
     private perfilInvestidor perfil;
     private String email;
 
     // Relacionamentos
-    // Obs.: trocar por outras estruturas para manter a ordenação e facilitar queries
     private List<ContaBanco> contasBancosVinculadas;
     private List<ContaCorretora> contasCorretorasVinculadas;
-    private List<Meta> metas;
-    //private Lista<Relatorio> relatorios;
-
     
-    public void alterarApelido(String novoApelido){
-        this.apelido = novoApelido;
+    // Métodos
+    public Integer getCPF(){
+        return cpf;
     }
 
-    public void alterarEmail(String novoEmail){
+    public Integer calcularIdade(){
+        Date hoje = new Date();
+        long diff = hoje.getTime() - this.dataNascimento.getTime();
+        Integer idade = (int) (diff / (1000L * 60 * 60 * 24 * 365));
+        System.out.println("Idade: "+ idade + "\n");
+        return idade;
+    }
+
+    public void mostrarDados(){
+        System.out.println("Dados do Usuário" + "\nUsuario{" +
+                "ID: " + id +
+                "\nNome Completo: '" + nomeCompleto + '\'' +
+                "\nIdade: " + calcularIdade() +
+                "\nE-mail: '" + email + '\'' +
+                "\nPerfil de Investidor: " + perfil);
+    }
+
+    public void setEmail(String novoEmail){
         this.email = novoEmail;
     }
 
-    public void alterarPerfil(perfilInvestidor novoPerfil){
+    public void setPerfil(perfilInvestidor novoPerfil){
         this.perfil = novoPerfil;        
     }
 
-    public void vincularcontaBanco(ContaBanco novaContaBanco){
-        this.contasBancosVinculadas.add(novaContaBanco); // add  verificação de vinculação antes de add
+    public void vincularContaBanco(ContaBanco novaContaBanco){
+        if (this.contasBancosVinculadas.add(novaContaBanco)){
+            System.out.println("\nConta de banco adicionada com sucesso!\n");
+        }
+        else {
+            System.out.println("\nEsse conta já está vinculada!\n");
+        }
     }
 
-    public void vincularcontaCorretora(ContaCorretora novacontaCorretora){
-        this.contasCorretorasVinculadas.add(novacontaCorretora);
-    }
-    public void addMeta(Meta novaMeta){
-        this.metas.add(novaMeta);
+    public void vincularContaCorretora(ContaCorretora novacontaCorretora){
+        if (this.contasCorretorasVinculadas.add(novacontaCorretora)){
+            System.out.println("\nConta de corretora adicionada com sucesso!\n");
+        }
+        else {
+            System.out.println("\nEsse conta já está vinculada!\n");
+        }
     }
 
-    // Fazer getters e setters
-    // - Mostrar metas, contaBancos, etc
-    // - remover ou editar meta (usar sobrecarga pra editar);
+    public void listarContasBanco(){
+       for (ContaBanco conta : this.contasBancosVinculadas) {
+            System.out.println("Banco: " + conta.getNome()+
+                            "\nCódigo COMPE: " + conta.getCOMPE() + "\n");
+        }
+    }
+
+    public void listarContasCorretoras(){
+        for (ContaCorretora conta : this.contasCorretorasVinculadas) {
+            System.out.println("Banco: " + conta.getNome()+
+                            "\nCódigo COMPE: " + conta.getCodigo() + "\n");
+        }
+    }
 }
