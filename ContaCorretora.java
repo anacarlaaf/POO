@@ -32,8 +32,14 @@ public class ContaCorretora{
     private void addInvestimento(Investimento novoInvestimento){
         this.investimentos.add(novoInvestimento);
     }
-    public void sincronizarInvestimentos(){} //simular sincronização com openFinance
-
+   //simular sincronização com openFinance
+    public void sincronizarInvestimentos() {
+        boolean sucesso = new java.util.Random().nextBoolean();
+        if (sucesso) {
+            System.out.println("Investimentos da corretora " + nome + " sincronizados com sucesso!");
+        } else {
+            System.out.println("Falha ao sincronizar investimentos da corretora " + nome + ".");
+        }
 }
 
 
@@ -54,8 +60,15 @@ class Investimento {
         this.categoria = categoria;
     }
 
-    // public float calcularValorAtual(){}
-    // public float calcularRendimento(){}
+   // Crescimento de 1,2% ao mês
+    public float calcularValorAtual() {
+        long meses = ChronoUnit.MONTHS.between(dataAplicacao, LocalDate.now());
+        return (float) (valorAplicado * Math.pow(1.012, meses));
+    }
 
+    public float calcularRendimento() {
+        return calcularValorAtual() - valorAplicado;
+    }
 }
+
 
