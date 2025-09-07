@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDate; // pega a data de hoje
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 public class ContaCorretora{
 
@@ -32,6 +35,22 @@ public class ContaCorretora{
     private void addInvestimento(Investimento novoInvestimento){
         this.investimentos.add(novoInvestimento);
     }
+
+     // Listar todos os investimentos
+    public void listarInvestimentos() {
+        if (investimentos.isEmpty()) {
+            System.out.println("Nenhum investimento cadastrado na corretora " + nome);
+        } else {
+            System.out.println("Investimentos da corretora " + nome + ":");
+            for (Investimento inv : investimentos) {
+                System.out.println("- ID: " + inv.id 
+                    + " | Valor Aplicado: " + inv.valorAplicado 
+                    + " | Valor Atual: " + inv.calcularValorAtual()
+                    + " | Rendimento: " + inv.calcularRendimento());
+            }
+        }
+    }
+    
    //simular sincronização com openFinance
     public void sincronizarInvestimentos() {
         boolean sucesso = new java.util.Random().nextBoolean();
@@ -46,7 +65,6 @@ public class ContaCorretora{
 class Investimento {
     int id;
     float valorAplicado;
-    float valorAtual;
     Date dataAplicacao;
     Date dataVencimento;
     String categoria;
@@ -61,14 +79,16 @@ class Investimento {
     }
 
    // Crescimento de 1,2% ao mês
-    public float calcularValorAtual() {
-        long meses = ChronoUnit.MONTHS.between(dataAplicacao, LocalDate.now());
-        return (float) (valorAplicado * Math.pow(1.012, meses));
+   public float calcularValorAtual() {
+            LocalDate inicio = dataAplicacao.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            long meses = ChronoUnit.MONTHS.between(inicio, LocalDate.now());
+            return (float) (valorAplicado * Math.pow(1.012, meses));
     }
 
     public float calcularRendimento() {
         return calcularValorAtual() - valorAplicado;
     }
 }
+
 
 
