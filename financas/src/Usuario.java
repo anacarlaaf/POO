@@ -15,7 +15,7 @@ public class Usuario{
     private String nomeCompleto;
     private LocalDate dataNascimento;
     private String cpf;
-    private perfilInvestidor perfil;
+    private String perfil;
     private String email;
 
     // Relacionamentos
@@ -23,13 +23,14 @@ public class Usuario{
     private List<ContaCorretora> contasCorretorasVinculadas;
 
     // Construtor
-    public Usuario(int id, String nomeCompleto, LocalDate dataNascimento, String cpf, perfilInvestidor perfil, String email) {
+    public Usuario(int id, String nomeCompleto, LocalDate dataNascimento, String cpf, String perfil, String email) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.dataNascimento = dataNascimento;
         this.cpf = cpf;
         this.perfil = perfil;
         this.email = email;
+        
         this.contasBancosVinculadas = new ArrayList<>();
         this.contasCorretorasVinculadas = new ArrayList<>();
     }
@@ -60,7 +61,7 @@ public class Usuario{
         this.email = novoEmail;
     }
 
-    public void setPerfil(perfilInvestidor novoPerfil){
+    public void setPerfil(String novoPerfil){
         this.perfil = novoPerfil;        
     }
 
