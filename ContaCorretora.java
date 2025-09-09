@@ -59,6 +59,7 @@ public class ContaCorretora{
         } else {
             System.out.println("Falha ao sincronizar investimentos da corretora " + nome + ".");
         }
+    }
 }
 
 
