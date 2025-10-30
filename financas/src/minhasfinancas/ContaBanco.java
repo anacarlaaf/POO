@@ -20,7 +20,7 @@ public class ContaBanco extends Conta<Transacao>{
         String origem;
 
         try {
-                List<String> linhas = Files.readAllLines(Paths.get("C:/Users/anacarla/OneDrive/Documentos/Estudo/Ciência da Computação/Disciplinas/4 Período/POO/POO/financas/src/minhasfinancas/openFinance.txt"));
+                List<String> linhas = Files.readAllLines(Paths.get("src/minhasfinancas/openFinance.txt"));
 
                 for (String linha : linhas) {
                 if (linha.trim().isEmpty()) continue; // pular linhas vazias
