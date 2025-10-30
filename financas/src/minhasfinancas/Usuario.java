@@ -86,7 +86,7 @@ public class Usuario {
          ContaBanco var2 = (ContaBanco)var1.next();
          PrintStream var10000 = System.out;
          String var10001 = var2.getNome();
-         var10000.println("Banco: " + var10001 + "\nCódigo COMPE: " + var2.getCOMPE() + "\n");
+         var10000.println("Banco: " + var10001 + "\nCódigo COMPE: " + var2.getCodigo() + "\n");
       }
 
    }
