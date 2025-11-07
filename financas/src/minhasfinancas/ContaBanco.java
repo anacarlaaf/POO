@@ -1,41 +1,65 @@
 package minhasfinancas;
-import java.time.LocalDate;
 import java.io.*;
 import java.nio.file.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public class ContaBanco extends Conta<Transacao>{
 
-    public ContaBanco(int codigo, String nome, int numeroConta, String tokenAcesso) {
-        super(codigo, nome, numeroConta, tokenAcesso); // Chama o construtor da classe pai
+    public ContaBanco(){};
+
+    public ContaBanco(int codigo, String nome, int numeroConta) {
+        super(codigo, nome, numeroConta); // Chama o construtor da classe pai
     }
 
-    public void sincronizar(){ // Temporário (será implementado na classe abstrata pai)
+    public ContaBanco CadastrarBanco(){
+        int codigoL;
+        String nomeL;
+        int numeroContaL;
 
-        int id;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n--------- CADASTRO DE BANCO ---------\n");
+        
+        System.out.println("Código: ");
+        codigoL = sc.nextInt();
+
+        System.out.println("Nome do Banco: ");
+        nomeL = sc.nextLine();
+        
+        System.out.println("Número da Conta: ");
+        numeroContaL = sc.nextInt();
+
+        System.out.println("\n-------------------------------------\n");
+        ContaBanco conta = new ContaBanco(codigoL, nomeL, numeroContaL);
+        return conta;
+    }
+
+    @Override
+    public void sincronizar(){ // Simula requisição à API OpenFinance
+
         float valor;
         LocalDate data;
         String descricao;
-        boolean tipo;
+        String categoria;
         String origem;
 
         try {
                 List<String> linhas = Files.readAllLines(Paths.get("src/minhasfinancas/openFinance.txt"));
 
                 for (String linha : linhas) {
-                if (linha.trim().isEmpty()) continue; // pular linhas vazias
+                    if (linha.trim().isEmpty()) continue; // Pula linhas vazias
 
-                String[] partes = linha.split(";", -1); // -1 mantém campos vazios
+                    String[] partes = linha.split(";", -1);
 
-                id = Integer.parseInt(partes[0]);
-                valor = Float.parseFloat(partes[1]);
-                data = LocalDate.parse(partes[2]);
-                descricao = partes[3];
-                tipo = Boolean.parseBoolean(partes[4]);
-                origem = partes[5];
-                
-                Transacao t = new Transacao(id, valor, data, descricao, tipo, origem);
-                addTransacao(t);
+                    valor = Float.parseFloat(partes[0]);
+                    data = LocalDate.parse(partes[1]);
+                    descricao = partes[2];
+                    categoria = partes[3];
+                    origem = partes[4];
+                    this.saldo += valor; // Atualiza saldo
+                    
+                    Transacao t = new Transacao(valor, data, descricao, categoria, origem);
+                    addTransacao(t);
                 }
 
             } catch (IOException e) {
@@ -54,6 +78,17 @@ public class ContaBanco extends Conta<Transacao>{
                 Transacao var2 = (Transacao)var1.next();
                 var2.mostrar();
             }
+            System.out.println("-----------------------------\n\n");
         }
+    }
+
+    public Map<String, Float> getDespesaPorCategoria() {
+        Map<String, Float> mapa = new HashMap<>();
+        for (Transacao t : this.transacoes) {
+            if (t.getValor() < 0) {
+                mapa.put(t.getCategoria(), mapa.getOrDefault(t.getCategoria(), 0f) + Math.abs(t.getValor()));
+            }
+        }
+        return mapa;
     }
 }

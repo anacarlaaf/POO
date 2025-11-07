@@ -3,8 +3,8 @@ import java.util.*;
 
 public class ContaCorretora extends Conta<Investimento> {
 
-    public ContaCorretora(int codigo, String nome, int numeroConta, String tokenAcesso) {
-        super(codigo, nome, numeroConta, tokenAcesso); // Chama o construtor da classe pai
+    public ContaCorretora(int codigo, String nome, int numeroConta) {
+        super(codigo, nome, numeroConta); // Chama o construtor da classe pai
     }
 
     public void addInvestimento(Investimento var1) {
@@ -25,7 +25,9 @@ public class ContaCorretora extends Conta<Investimento> {
         }
     }
 
-   // public void sincronizarInvestimentos() {
-    //} // Em andamento...
+    @Override
+    public void sincronizar() {
+        // Em construção
+    }
 }
 

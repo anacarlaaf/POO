@@ -9,11 +9,12 @@ abstract class Conta<T>{
     protected String tokenAcesso;
     protected List<T> transacoes;
 
-    public Conta(int codigo, String nome, int numeroConta, String tokenAcesso) {
+    public Conta(){};
+
+    public Conta(int codigo, String nome, int numeroConta) {
         this.codigo = codigo;
         this.nome = nome;
         this.numeroConta = numeroConta;
-        this.tokenAcesso = tokenAcesso;
         this.transacoes = new ArrayList<>();
     }
 
@@ -33,5 +34,5 @@ abstract class Conta<T>{
         this.transacoes.add(transacao);
     }
 
-    // public abstract void sincronizar(){} // Em andamento...
+    public abstract void sincronizar();
 }
