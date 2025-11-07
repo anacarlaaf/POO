@@ -1,0 +1,10 @@
+1;150.75;2024-03-15;Pagamento de salário;true;Empresa XYZ Ltda
+2;89.90;2024-03-14;Compra supermercado;false;Supermercado ABC
+3;250.00;2024-03-13;Transferência recebida;true;João Silva
+4;35.50;2024-03-12;Uber;false;Uber Technologies
+5;1200.00;2024-03-11;Aluguel;false;Imobiliária Casa Nova
+6;500.00;2024-03-10;Freelance projeto;true;Cliente Tech Solutions
+7;45.30;2024-03-09;Restaurante;false;Restaurante Sabor Mineiro
+8;300.00;2024-03-08;Pagamento conta luz;false;Companhia Elétrica
+9;750.00;2024-03-07;Consulta médica;false;Clínica Saúde Total
+10;180.25;2024-03-06;Venda produtos;true;Loja Online
