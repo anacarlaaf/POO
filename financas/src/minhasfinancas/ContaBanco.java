@@ -113,7 +113,7 @@ public class ContaBanco extends Conta<Transacao>{
             System.out.println("Iniciando dashboard Streamlit...");
             
             // Usar ProcessBuilder para melhor controle
-            ProcessBuilder pb = new ProcessBuilder("streamlit", "run", "financas/src/minhasfinancas/dashboard.py", "--server.headless", "false");
+            ProcessBuilder pb = new ProcessBuilder("streamlit", "run", "financas/src/minhasfinancas/dashboard.py");
             
             // Iniciar o processo sem esperar (em background)
             Process process = pb.start();
@@ -121,7 +121,7 @@ public class ContaBanco extends Conta<Transacao>{
             // Aguardar um pouco para o Streamlit inicializar
             Thread.sleep(2000);
             
-            System.out.println("Abra manualmente: http://localhost:8501");
+            System.out.println("Abra manualmente: http://localhost:8502");
             System.out.println("Pressione ENTER para voltar ao menu...");
             
             // Esperar o usuário pressionar ENTER para finalizar
