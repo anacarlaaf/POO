@@ -44,7 +44,7 @@ public class ContaBanco extends Conta<Transacao>{
         String origem;
 
         try {
-                List<String> linhas = Files.readAllLines(Paths.get("src/minhasfinancas/openFinance.txt"));
+                List<String> linhas = Files.readAllLines(Paths.get("financas/data/openFinance.txt"));
 
                 for (String linha : linhas) {
                     if (linha.trim().isEmpty()) continue; // Pula linhas vazias
@@ -67,28 +67,74 @@ public class ContaBanco extends Conta<Transacao>{
             }
     }
 
-    public void gerarExtrato(){
-        if (this.transacoes.isEmpty()) {
-            System.out.println("Nenhuma transação encontrada.zn");
-        } else {
-            System.out.println("\n--------- EXTRATO ----------\n");
-            Iterator var1 = this.transacoes.iterator();
+    private void gerarDashboardInfo() {
+        sincronizar();
 
-            while(var1.hasNext()) {
-                Transacao var2 = (Transacao)var1.next();
-                var2.mostrar();
+        // Map para acumular total por categoria
+        Map<String, Float> gastosPorCategoria = new HashMap<>();
+        float receita = 0, despesa = 0;
+
+        for (Transacao t : this.transacoes) {
+            if (t.getValor() >= 0) {
+                receita += t.getValor();
             }
-            System.out.println("-----------------------------\n\n");
+            if (t.getValor() < 0) { // Só gastos (valores negativos)
+                despesa += t.getValor();
+                String categoria = t.getCategoria();
+                float valor = Math.abs(t.getValor()); // torna positivo para somar
+
+                gastosPorCategoria.put(categoria,
+                    gastosPorCategoria.getOrDefault(categoria, 0f) + valor
+                );
+            }
+        }
+
+        // Agora escrevemos em CSV
+        try (PrintWriter pw = new PrintWriter("financas/data/dashboard_info.csv")) {
+            pw.println("Saldo " + saldo);
+            pw.println("Receita " + receita);
+            pw.println("Despesa " + despesa);            
+
+            for (Map.Entry<String, Float> entry : gastosPorCategoria.entrySet()) {
+                pw.println(entry.getKey() + " " + entry.getValue());
+            }
+
+            System.out.println("Arquivo CSV gerado com sucesso: gastos_por_categoria.csv");
+
+        } catch (Exception e) {
+            System.err.println("Erro ao gerar CSV: " + e.getMessage());
         }
     }
 
-    public Map<String, Float> getDespesaPorCategoria() {
-        Map<String, Float> mapa = new HashMap<>();
-        for (Transacao t : this.transacoes) {
-            if (t.getValor() < 0) {
-                mapa.put(t.getCategoria(), mapa.getOrDefault(t.getCategoria(), 0f) + Math.abs(t.getValor()));
-            }
+    public void gerarDashboard(){
+        gerarDashboardInfo();
+
+        try {
+            System.out.println("Iniciando dashboard Streamlit...");
+            
+            // Usar ProcessBuilder para melhor controle
+            ProcessBuilder pb = new ProcessBuilder("streamlit", "run", "financas/src/minhasfinancas/dashboard.py", "--server.headless", "false");
+            
+            // Iniciar o processo sem esperar (em background)
+            Process process = pb.start();
+            
+            // Aguardar um pouco para o Streamlit inicializar
+            Thread.sleep(2000);
+            
+            System.out.println("Abra manualmente: http://localhost:8501");
+            System.out.println("Pressione ENTER para voltar ao menu...");
+            
+            // Esperar o usuário pressionar ENTER para finalizar
+            new Scanner(System.in).nextLine();
+            
+            // Finalizar o processo do Streamlit
+            process.destroy();
+            
+        } catch (IOException e) {
+            System.err.println("Erro ao executar script Python: " + e.getMessage());
+        } catch (InterruptedException e) {
+            System.err.println("Execução interrompida: " + e.getMessage());
+            Thread.currentThread().interrupt();
         }
-        return mapa;
     }
 }

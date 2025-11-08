@@ -1,23 +1,18 @@
+import java.time.LocalDate;
 import minhasfinancas.*;
 
 public class Main {
 
     public static void main(String[] args){
-        Usuario usuario = new Usuario();
-        usuario.cadastrarUsuario();
-
+        Usuario usuario = new Usuario("Maria", LocalDate.of(2000, 6, 15), "12345678910", "Moderado", "maria@email.com");
+        ContaBanco banco = new ContaBanco(123, "BR", 1414);
+        
         usuario.mostrarDados();
-
-        ContaBanco banco = new ContaBanco(0, "BB", 1);
         usuario.vincularContaBanco(banco);
-        ContaBanco banco2 = new ContaBanco(0, "BR", 1);
-        usuario.vincularContaBanco(banco2);
-
         usuario.listarContasBanco();
 
         if(!usuario.getContasBanco().isEmpty()){
-            usuario.getContasBanco().get(0).sincronizar();  // Simula requisição em API (Open Finance)
-            usuario.getContasBanco().get(0).gerarExtrato();
+            usuario.getContasBanco().get(0).gerarDashboard(); // Gera Dashboard
         }
     }
 }

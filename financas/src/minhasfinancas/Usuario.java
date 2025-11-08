@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Usuario {
 
    // Atributos
-   private int id;
+   //private int id;
    private String nomeCompleto;
    private LocalDate dataNascimento;
    private String cpf;
@@ -21,7 +21,6 @@ public class Usuario {
    private List<ContaCorretora> contasCorretorasVinculadas;
 
    // Método Construtor
-   public Usuario(){}
 
    public Usuario(String nome, LocalDate dataNascimento, String cpf, String perfil, String email) {
       // this.id = id; auto-incremento no banco
@@ -47,18 +46,18 @@ public class Usuario {
       System.out.println("Nome Completo: ");
       nomeCompletoL = sc.nextLine();
 
-      System.out.println("Data de Nascimento: ");
+      System.out.println("\nData de Nascimento: ");
       String entrada = sc.nextLine();
       DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       dataNascimentoL = LocalDate.parse(entrada, formato);
       
-      System.out.println("CPF: ");
+      System.out.println("\nCPF: ");
       cpfL = sc.nextLine();
 
-      System.out.println("Perfil de investidor: ");
+      System.out.println("\nPerfil de investidor: ");
       perfilL = sc.nextLine();
 
-      System.out.println("Email: ");
+      System.out.println("\nEmail: ");
       emailL = sc.nextLine();
       System.out.println("---------------------------------------\n");
       
@@ -78,29 +77,15 @@ public class Usuario {
    }
 
    public void mostrarDados() {
-      System.out.println("\n--------- SEUS DADOS ---------\nnNome Completo: " 
+      System.out.println("\n------------- SEUS DADOS -------------\nNome Completo: " 
                         + this.nomeCompleto + "\nCPF: " + cpf +"\nIdade: " + calcularIdade() 
                         + "\nE-mail: " + email + "\nPerfil de Investidor: " 
-                        + perfil + "\n");
-      System.out.println("------------------------------\n");
+                        + perfil);
+      System.out.println("--------------------------------------\n");
    }
 
    public void vincularContaBanco(ContaBanco id) {
-      if (this.contasBancosVinculadas.add(id)) {
-         System.out.println("Conta no banco" + id.getNome() +" adicionada com sucesso!");
-      } else {
-         System.out.println("Esse conta já está vinculada!");
-      }
-
-   }
-
-   public void vincularContaCorretora(ContaCorretora id) {
-      if (this.contasCorretorasVinculadas.add(id)) {
-         System.out.println("\nConta de corretora adicionada com sucesso!\n");
-      } else {
-         System.out.println("Esse conta já está vinculada!\n");
-      }
-
+      this.contasBancosVinculadas.add(id);
    }
 
    public void listarContasBanco() {
@@ -112,10 +97,10 @@ public class Usuario {
          ContaBanco nome = (ContaBanco)id.next();
          PrintStream id0000 = System.out;
          String id0001 = nome.getNome();
-         id0000.println("Banco: " + id0001 + "\nCódigo COMPE: " + nome.getCodigo() + "\n");
+         id0000.println("Banco: " + id0001 + "\nCódigo COMPE: " + nome.getCodigo());
       }
 
-      System.out.println("---------------------------------------\n\n");
+      System.out.println("--------------------------------------\n");
 
    }
 }
