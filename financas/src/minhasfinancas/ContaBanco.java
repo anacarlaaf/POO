@@ -99,8 +99,6 @@ public class ContaBanco extends Conta<Transacao>{
                 pw.println(entry.getKey() + " " + entry.getValue());
             }
 
-            System.out.println("Arquivo CSV gerado com sucesso: gastos_por_categoria.csv");
-
         } catch (Exception e) {
             System.err.println("Erro ao gerar CSV: " + e.getMessage());
         }
@@ -121,7 +119,7 @@ public class ContaBanco extends Conta<Transacao>{
             // Aguardar um pouco para o Streamlit inicializar
             Thread.sleep(2000);
             
-            System.out.println("Abra manualmente: http://localhost:8502");
+            System.out.println("http://localhost:8502");
             System.out.println("Pressione ENTER para voltar ao menu...");
             
             // Esperar o usuário pressionar ENTER para finalizar
