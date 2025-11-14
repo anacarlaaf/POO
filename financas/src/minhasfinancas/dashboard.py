@@ -15,36 +15,36 @@ categorias = {
     "moradia": 4750.0
 }
 
-# Configuração da página
-st.set_page_config(layout="wide", page_title="Dashboard Financeiro")
+# Configuração de página otimizada para mobile
+st.set_page_config(
+    layout="centered",  # deixa tudo centralizado e ideal para telas pequenas
+    page_title="Dashboard Financeiro"
+)
 
-st.title("Dashboard Financeiro")
+st.title("📊 Dashboard Financeiro (Mobile)")
 
-# Cards
-col1, col2, col3 = st.columns(3)
-
-col1.metric("Saldo", f"R$ {saldo:,.2f}")
-col2.metric("Receita", f"R$ {receita:,.2f}")
-col3.metric("Despesa", f"R$ {abs(despesa):,.2f}")
+# Métricas em coluna única para melhor visualização no celular
+st.metric("Saldo", f"R$ {saldo:,.2f}")
+st.metric("Receita", f"R$ {receita:,.2f}")
+st.metric("Despesa", f"R$ {abs(despesa):,.2f}")
 
 st.markdown("---")
 
-# Gráfico de barras e pizza lado a lado
-colA, colB = st.columns(2)
-
-# Gráfico de barras horizontais das categorias
+# Gráfico de barras (ocupa largura total)
 fig_bar = px.bar(
     x=list(categorias.values()),
     y=list(categorias.keys()),
     orientation='h',
     title="Despesas por Categoria"
 )
-colA.plotly_chart(fig_bar, width='stretch')
 
-# Gráfico de pizza Receita vs Despesa
+st.plotly_chart(fig_bar, use_container_width=True)
+
+# Gráfico de pizza (ocupa largura total)
 fig_pizza = px.pie(
     names=["Receita", "Despesa"],
     values=[receita, abs(despesa)],
     title="Receita x Despesa"
 )
-colB.plotly_chart(fig_pizza, width='stretch')
+
+st.plotly_chart(fig_pizza, use_container_width=True)
