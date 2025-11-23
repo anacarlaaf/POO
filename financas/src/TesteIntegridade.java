@@ -1,6 +1,3 @@
-// TesteIntegridade.java
-// Versão corrigida e incluindo ContaCorretora e Usuario
-
 package minhasfinancas;
 
 import java.lang.reflect.*;
