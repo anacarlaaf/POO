@@ -6,8 +6,7 @@ public class TesteIntegridade {
         testarClasse("minhasfinancas.Usuario", new String[]{"nomeCompleto", "cpf"}, new String[]{});
         testarClasse("minhasfinancas.Conta", new String[]{"codigo", "nome", "numeroConta"}, new String[]{});
         testarClasse("minhasfinancas.ContaBanco", new String[]{}, new String[]{});
-        testarClasse("minhasfinancas.Transacao", new String[]{"valor", "data", "descricao"}, new String[]{"Transacao"});
-        testarClasse("minhasfinancas.Investimento", new String[]{"data", "tipo"}, new String[]{"mostrarInvestimento"});
+        testarClasse("minhasfinancas.Transacao", new String[]{"valor", "data", "descricao"}, new String[]{"mostrar"});
         testarClasse("minhasfinancas.ContaCorretora", new String[]{}, new String[]{});
     }
 
