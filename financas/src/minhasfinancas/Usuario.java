@@ -16,7 +16,7 @@ import java.util.Scanner;
  * A classe permite cadastrar um usuário, vincular contas e exibir dados
  * pessoais formatados.
  */
-public class Usu {
+public class Usuario {
 
     // ========================= Atributos ===============================
 
@@ -161,4 +161,5 @@ public class Usu {
         System.out.println("--------------------------------------\n");
     }
 }
+
 
