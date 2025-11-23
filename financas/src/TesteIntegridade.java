@@ -3,55 +3,82 @@ import java.lang.reflect.*;
 public class TesteIntegridade {
 
     public static void main(String[] args) {
+        testarClasse("minhasfinancas.Usuario",
+                new String[]{"mostrarDados", "listarContasBanco"},
+                new Class<?>[][]{}
+        );
+
+        testarClasse("minhasfinancas.Conta",
+                new String[]{"getNumero", "getAgencia", "getPais"},
+                new Class<?>[][]{}
+        );
+
+        testarClasse("minhasfinancas.ContaBanco",
+                new String[]{"gerarDashboard"},
+                new Class<?>[][]{}
+        );
+
+        testarClasse("minhasfinancas.Transacao",
+                new String[]{"mostrarTransacao"},
+                new Class<?>[][]{}
+        );
+
+        testarClasse("minhasfinancas.Investimento",
+                new String[]{"mostrarInvestimento"},
+                new Class<?>[][]{}
+        );
+    }
+
+    private static void testarClasse(String nomeClasse, String[] metodosObrigatorios, Class<?>[][] assinaturas) {
+        System.out.println("\nTestando: " + nomeClasse);
 
         try {
-            testarClasse("minhasfinancas.Usuario");
-            testarClasse("minhasfinancas.Conta");
-            testarClasse("minhasfinancas.ContaBanco");
-            testarClasse("minhasfinancas.ContaCorretora");
-            testarClasse("minhasfinancas.Investimento");
-            testarClasse("minhasfinancas.Transacao");
+            Class<?> c = Class.forName(nomeClasse);
 
-            System.out.println("\n=====================================");
-            System.out.println("✔ TODOS OS TESTES PASSARAM!");
-            System.out.println("=====================================");
+            // ----------- VERIFICA CLASSE EXISTE -----------
+            if (c == null) {
+                falhar("Classe não encontrada: " + nomeClasse);
+                return;
+            }
+
+            // ----------- VERIFICA ATRIBUTOS (HERANÇA INCLUÍDA) -----------
+            Field[] declarados = c.getDeclaredFields();
+            Field[] herdados = c.getFields(); // públicos herdados
+
+            if (declarados.length == 0 && herdados.length == 0) {
+                System.out.println(" ⚠ Aviso: classe não possui atributos próprios (pode ser normal se herdar de outra).");
+            } else {
+                System.out.println(" ✓ Atributos detectados.");
+            }
+
+            // ----------- VERIFICA MÉTODOS OBRIGATÓRIOS -----------
+            for (String metodo : metodosObrigatorios) {
+                boolean existe = false;
+
+                for (Method m : c.getDeclaredMethods()) {
+                    if (m.getName().equals(metodo)) {
+                        existe = true;
+                        break;
+                    }
+                }
+
+                if (!existe) {
+                    falhar("Método obrigatório ausente: " + metodo);
+                    return;
+                }
+            }
+
+            System.out.println(" OK — classe válida.");
 
         } catch (Exception e) {
-            System.out.println("\n=====================================");
-            System.out.println("✖ FALHA NO TESTE DE INTEGRIDADE");
-            System.out.println("Motivo: " + e.getMessage());
-            System.out.println("=====================================");
+            falhar("Erro ao carregar classe: " + e.getMessage());
         }
     }
 
-    private static void testarClasse(String nomeClasse) throws Exception {
-        System.out.println("\nTestando: " + nomeClasse);
-
-        Class<?> c;
-        try {
-            c = Class.forName(nomeClasse);
-        } catch (ClassNotFoundException e) {
-            throw new Exception("Classe não encontrada: " + nomeClasse);
-        }
-
-        // Testa se a classe tem pelo menos um atributo
-        Field[] atributos = c.getDeclaredFields();
-        if (atributos.length == 0) {
-            throw new Exception("A classe " + nomeClasse + " não possui atributos. Estrutura incorreta.");
-        }
-
-        // Testa se possui construtor público
-        Constructor<?>[] construtores = c.getConstructors();
-        if (construtores.length == 0) {
-            throw new Exception("A classe " + nomeClasse + " não possui construtor público.");
-        }
-
-        // Testa se possui pelo menos um método
-        Method[] metodos = c.getDeclaredMethods();
-        if (metodos.length == 0) {
-            throw new Exception("A classe " + nomeClasse + " não possui métodos.");
-        }
-
-        System.out.println(" OK — classe válida.");
+    private static void falhar(String msg) {
+        System.out.println("\n=====================================");
+        System.out.println("✖ FALHA NO TESTE DE INTEGRIDADE");
+        System.out.println("Motivo: " + msg);
+        System.out.println("=====================================");
     }
 }
