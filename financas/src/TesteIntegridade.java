@@ -3,7 +3,7 @@ import java.lang.reflect.*;
 public class TesteIntegridade {
 
     public static void main(String[] args) {
-        testarClasse("minhasfinancas.Usuario", new String[]{"nomeCompleto", "cpf", "dataNascimento", "perfil"}, new String[]{});
+        testarClasse("minhasfinancas.Usuario", new String[]{"nomeCompleto", "cpf", "dataNascimento", "perfil", "email"}, new String[]{});
         testarClasse("minhasfinancas.Conta", new String[]{"codigo", "nome", "numeroConta"}, new String[]{});
         testarClasse("minhasfinancas.ContaBanco", new String[]{}, new String[]{});
         testarClasse("minhasfinancas.Transacao", new String[]{"valor", "data", "descricao"}, new String[]{"mostrar"});
