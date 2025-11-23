@@ -1,5 +1,3 @@
-package minhasfinancas;
-
 import java.lang.reflect.*;
 
 public class TesteIntegridade {
