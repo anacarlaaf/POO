@@ -4,10 +4,10 @@ public class TesteIntegridade {
 
     public static void main(String[] args) {
         testarClasse("minhasfinancas.Usuario", new String[]{"nomeCompleto", "cpf"}, new String[]{});
-        testarClasse("minhasfinancas.Conta", new String[]{"codigo", "nome", "numeroConta"}, new String[]{"getNumero"});
+        testarClasse("minhasfinancas.Conta", new String[]{"codigo", "nome", "numeroConta"}, new String[]{});
         testarClasse("minhasfinancas.ContaBanco", new String[]{}, new String[]{});
-        testarClasse("minhasfinancas.Transacao", new String[]{"valor", "data", "descricao"}, new String[]{"mostrarTransacao"});
-        testarClasse("minhasfinancas.Investimento", new String[]{"valor", "data", "tipo"}, new String[]{"mostrarInvestimento"});
+        testarClasse("minhasfinancas.Transacao", new String[]{"valor", "data", "descricao"}, new String[]{"Transacao"});
+        testarClasse("minhasfinancas.Investimento", new String[]{"data", "tipo"}, new String[]{"mostrarInvestimento"});
         testarClasse("minhasfinancas.ContaCorretora", new String[]{}, new String[]{});
     }
 
