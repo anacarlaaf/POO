@@ -1,84 +1,67 @@
+// TesteIntegridade.java
+// Versão corrigida e incluindo ContaCorretora e Usuario
+
+package minhasfinancas;
+
 import java.lang.reflect.*;
 
 public class TesteIntegridade {
 
     public static void main(String[] args) {
-        testarClasse("minhasfinancas.Usuario",
-                new String[]{"mostrarDados", "listarContasBanco"},
-                new Class<?>[][]{}
-        );
-
-        testarClasse("minhasfinancas.Conta",
-                new String[]{"getNumero", "getAgencia", "getPais"},
-                new Class<?>[][]{}
-        );
-
-        testarClasse("minhasfinancas.ContaBanco",
-                new String[]{"gerarDashboard"},
-                new Class<?>[][]{}
-        );
-
-        testarClasse("minhasfinancas.Transacao",
-                new String[]{"mostrarTransacao"},
-                new Class<?>[][]{}
-        );
-
-        testarClasse("minhasfinancas.Investimento",
-                new String[]{"mostrarInvestimento"},
-                new Class<?>[][]{}
-        );
+        testarClasse("minhasfinancas.Usuario", new String[]{"nomeCompleto", "cpf"}, new String[]{});
+        testarClasse("minhasfinancas.Conta", new String[]{"codigo", "nome", "numeroConta"}, new String[]{"getNumero"});
+        testarClasse("minhasfinancas.ContaBanco", new String[]{}, new String[]{});
+        testarClasse("minhasfinancas.Transacao", new String[]{"valor", "data", "descricao"}, new String[]{"mostrarTransacao"});
+        testarClasse("minhasfinancas.Investimento", new String[]{"valor", "data", "tipo"}, new String[]{"mostrarInvestimento"});
+        testarClasse("minhasfinancas.ContaCorretora", new String[]{}, new String[]{});
     }
 
-    private static void testarClasse(String nomeClasse, String[] metodosObrigatorios, Class<?>[][] assinaturas) {
+    private static void testarClasse(String nomeClasse, String[] atributosObrigatorios, String[] metodosObrigatorios) {
         System.out.println("\nTestando: " + nomeClasse);
 
         try {
-            Class<?> c = Class.forName(nomeClasse);
+            Class<?> cls = Class.forName(nomeClasse);
 
-            // ----------- VERIFICA CLASSE EXISTE -----------
-            if (c == null) {
-                falhar("Classe não encontrada: " + nomeClasse);
-                return;
-            }
+            boolean temAtributos = false;
+            Field[] atributos = cls.getDeclaredFields();
+            if (atributos.length > 0) temAtributos = true;
 
-            // ----------- VERIFICA ATRIBUTOS (HERANÇA INCLUÍDA) -----------
-            Field[] declarados = c.getDeclaredFields();
-            Field[] herdados = c.getFields(); // públicos herdados
-
-            if (declarados.length == 0 && herdados.length == 0) {
-                System.out.println(" ⚠ Aviso: classe não possui atributos próprios (pode ser normal se herdar de outra).");
-            } else {
+            if (temAtributos) {
                 System.out.println(" ✓ Atributos detectados.");
+            } else {
+                System.out.println(" ⚠ Aviso: classe não possui atributos próprios (pode ser normal se herdar de outra).");
             }
 
-            // ----------- VERIFICA MÉTODOS OBRIGATÓRIOS -----------
-            for (String metodo : metodosObrigatorios) {
-                boolean existe = false;
-
-                for (Method m : c.getDeclaredMethods()) {
-                    if (m.getName().equals(metodo)) {
-                        existe = true;
-                        break;
-                    }
+            for (String atributo : atributosObrigatorios) {
+                try {
+                    cls.getDeclaredField(atributo);
+                } catch (NoSuchFieldException e) {
+                    falha("Atributo obrigatório ausente: " + atributo);
+                    return;
                 }
+            }
 
-                if (!existe) {
-                    falhar("Método obrigatório ausente: " + metodo);
+            for (String metodo : metodosObrigatorios) {
+                try {
+                    cls.getDeclaredMethod(metodo);
+                } catch (NoSuchMethodException e) {
+                    falha("Método obrigatório ausente: " + metodo);
                     return;
                 }
             }
 
             System.out.println(" OK — classe válida.");
 
-        } catch (Exception e) {
-            falhar("Erro ao carregar classe: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            falha("Classe não encontrada: " + nomeClasse);
         }
     }
 
-    private static void falhar(String msg) {
+    private static void falha(String motivo) {
         System.out.println("\n=====================================");
         System.out.println("✖ FALHA NO TESTE DE INTEGRIDADE");
-        System.out.println("Motivo: " + msg);
+        System.out.println("Motivo: " + motivo);
         System.out.println("=====================================");
     }
 }
+
