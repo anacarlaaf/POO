@@ -21,7 +21,7 @@ st.set_page_config(
     page_title="Dashboard Financeiro"
 )
 
-st.title("📊 Dashboard Financeiro (Mobile)")
+st.title("📊 Dashboard Financeiro")
 
 # Métricas em coluna única para melhor visualização no celular
 st.metric("Saldo", f"R$ {saldo:,.2f}")
@@ -38,7 +38,7 @@ fig_bar = px.bar(
     title="Despesas por Categoria"
 )
 
-st.plotly_chart(fig_bar, use_container_width=True)
+st.plotly_chart(fig_bar, width="stretch")
 
 # Gráfico de pizza (ocupa largura total)
 fig_pizza = px.pie(
@@ -47,4 +47,4 @@ fig_pizza = px.pie(
     title="Receita x Despesa"
 )
 
-st.plotly_chart(fig_pizza, use_container_width=True)
+st.plotly_chart(fig_pizza, width="stretch")

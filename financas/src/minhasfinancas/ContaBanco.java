@@ -41,12 +41,14 @@ public class ContaBanco extends Conta<Transacao> {
         int codigoL;
         String nomeL;
         int numeroContaL;
+        String var;
 
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--------- CADASTRO DE BANCO ---------\n");
 
         System.out.println("Código: ");
         codigoL = sc.nextInt();
+        var = sc.nextLine();
 
         System.out.println("Nome do Banco: ");
         nomeL = sc.nextLine();

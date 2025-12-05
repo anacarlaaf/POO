@@ -49,35 +49,51 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         Integer op;
+        String user;
+        String senha;
+
+        System.out.println("\n--------- LOGIN ---------\n");
+            System.out.println("Usuário:");
+            user = sc.nextLine();
+            System.out.println("Senha:");
+            senha = sc.nextLine();
+            System.out.println("------------------------\n");
+        
 
         while (true) {
 
             System.out.println("\n--------- MENU ---------\n");
-            System.out.println("1 - Seu perfil\n2 - Listar contas de banco\n3 - Ver Dashboard\n4 - Sair\n");
+            System.out.println("1 - Seu perfil\n2 - Cadastrar Banco\n3 - Listar contas de banco\n4 - Ver Dashboard\n5 - Sair\n");
             System.out.println("------------------------\n");
 
             try {
                 op = sc.nextInt();
 
                 switch (op) {
+        
                     case 1 -> {
                         System.out.println("\n--------- PERFIL ---------\n");
                         usuario.mostrarDados();
                         System.out.println("------------------------\n");
                     }
                     case 2 -> {
+                        ContaBanco novaConta = new ContaBanco().CadastrarBanco();
+                        usuario.vincularContaBanco(novaConta);
+                        System.out.println("------------------------\n");
+                    }
+                    case 3 -> {
                         System.out.println("\n--------- BANCOS ---------\n");
                         usuario.listarContasBanco();
                         System.out.println("------------------------\n");
                     }
-                    case 3 -> {
+                    case 4 -> {
                         System.out.println("\n--------- DASHBOARD ---------\n");
                         if (!usuario.getContasBanco().isEmpty()) {
                             usuario.getContasBanco().get(0).gerarDashboard();
                         }
                         System.out.println("------------------------\n");
                     }
-                    case 4 -> {
+                    case 5 -> {
                         return; // Encerra o programa
                     }
                 }
